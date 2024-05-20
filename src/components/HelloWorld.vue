@@ -2,6 +2,8 @@
 defineProps<{
   msg: string
 }>()
+
+let panfapdnf: String = 'epnadpnf'
 </script>
 
 <template>
