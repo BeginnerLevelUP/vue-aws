@@ -3,13 +3,13 @@ import * as express from 'express'
 import * as cors from 'cors'
 import { userRouter } from './routes/user.routes'
 
-const app = express.default()
+const app = express()
 const PORT = process.env.PORT || 3001
 
 // express middleware, used to be bodyparser
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors.default())
+app.use(cors())
 
 //   COME BACK AND ChaNGE THIS TO MATCH VUE
 // if (process.env.NODE_ENV === 'production') {
