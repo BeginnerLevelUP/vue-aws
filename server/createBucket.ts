@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3'
 const client = new S3Client({ region: 'us-east-2' })
 
-const createBucket= async () => {
+const createBucket = async () => {
   const command = new CreateBucketCommand({
     Bucket: 'user-media-' + uuidv4()
   })

@@ -1,46 +1,48 @@
-import { CreateTableCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { CreateTableCommand, DeleteTableCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb'
 
 const client = new DynamoDBClient({ region: 'us-east-2' })
 
-const createUserTable=async()=>{
-      const command = new CreateTableCommand({
-    TableName: "Users",
+const createUserTable = async () => {
+  const command = new CreateTableCommand({
+    TableName: 'Users',
 
     AttributeDefinitions: [
       {
-        AttributeName: "userName",
-        AttributeType: "S",
+        AttributeName: 'userName',
+        AttributeType: 'S'
       },
-        {
-        AttributeName: "userEmail",
-        AttributeType: "S",
-      },
-              {
-        AttributeName: "userPassword",
-        AttributeType: "S",
-      },
-              {
-        AttributeName: "createAt",
-        AttributeType: "N",
-      },
+      {
+        AttributeName: 'createdAt',
+        AttributeType: 'N'
+      }
     ],
     KeySchema: [
       {
-        AttributeName: "userName",
-        KeyType: "HASH",
+        AttributeName: 'userName',
+        KeyType: 'HASH'
       },
       {
-        AttributeName:'createAt',
-        keyType:"RANGE"
+        AttributeName: 'createdAt',
+        KeyType: 'RANGE'
       }
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 1,
-      WriteCapacityUnits: 1,
-    },
-  });
+      WriteCapacityUnits: 1
+    }
+  })
 
-  const response = await client.send(command);
-  console.log(response);
-  return response;
+  try {
+    const response = await client.send(command)
+    console.log('Table Created : ', response)
+    return response
+  } catch (error) {
+    console.error('Error creating table:', error)
+    const command = new DeleteTableCommand({
+      TableName: 'Users'
+    })
+    const response = await client.send(command)
+    console.log('Delete Table Status : ', response)
+  }
 }
+createUserTable()
