@@ -22,4 +22,6 @@ app.use(cors())
 
 app.use('/api/', userRouter)
 
-app.listen(PORT, () => console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`))
+app.listen(PORT, () =>
+  console.log(`🌎  ==> API Server now listening on PORT http://localhost:${PORT} !`)
+)
