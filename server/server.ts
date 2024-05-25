@@ -1,8 +1,8 @@
 import * as express from 'express'
 // import * as path from 'path'
 import * as cors from 'cors'
+import { authRouter } from './routes/auth.routes'
 import { userRouter } from './routes/user.routes'
-import { uploadRouter } from './routes/upload.routes'
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -20,8 +20,8 @@ app.use(cors())
 //   res.sendFile(path.join(__dirname, '../client/dist/test-project/browser/index.html'))
 // })
 
-app.use('/api/', userRouter)
-app.use('/api', uploadRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/user', userRouter)
 app.listen(PORT, () =>
   console.log(`🌎  ==> API Server now listening on PORT http://localhost:${PORT} !`)
 )
