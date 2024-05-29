@@ -14,7 +14,7 @@
     "format": "prettier --write server/ && prettier --write src/"
   },
   "dependencies": {
-   "vue": "^3.4.21",
+    "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
@@ -28,6 +28,7 @@
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.19",
     "concurrently": "^8.2.2",
+    "daisyui": "^4.11.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "npm-run-all2": "^6.1.2",
