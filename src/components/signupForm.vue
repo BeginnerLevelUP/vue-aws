@@ -1,6 +1,7 @@
 <script lang="ts">
 import { type User } from "@/utils/userInterface";
 import router from "../router/index"
+import {signupRest }from "../utils/chatEngineApi.ts"
 export default {
   data() {
     return {
@@ -33,6 +34,11 @@ export default {
           const data = await res.json()
 
             if(data?.token){
+              signupRest(
+                this.formData.userName,
+                this.formData.userPassword,
+                this.formData.userEmail,
+              )
          console.log('User created successfully:', data)
          localStorage.setItem('id_token', data?.token);
          router.push('/')

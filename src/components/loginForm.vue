@@ -1,6 +1,7 @@
 <script lang="ts">
 import { type User } from "@/utils/userInterface";
 import router from "../router/index"
+import {loginRest} from "../utils/chatEngineApi"
 export default{
   data() {
     return {
@@ -32,9 +33,14 @@ export default{
           const data = await res.json()
 
             if(data?.token){
+              loginRest(
+                this.formData.userName,
+                this.formData.userPassword
+              )
          console.log('User Logged in successfully:', data)
          localStorage.setItem('id_token', data?.token);
          router.push('/')
+         window.location.reload()
             }else{
             console.error('Error Loggin User:', data)
             }
