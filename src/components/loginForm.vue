@@ -1,5 +1,5 @@
 <script lang="ts">
-import User from '../utils/userInterface'
+import { type User } from "@/utils/userInterface";
 import router from "../router/index"
 export default{
   data() {
