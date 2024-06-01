@@ -33,7 +33,7 @@ authRouter.post('/auth/register', async (req: Request, res: Response, next: Next
   try {
     const response = await docClient.send(command)
     const token = jwt.sign({ data: newUser }, secret, { expiresIn: expiration })
-    res.status(200).json({token})
+    res.status(200).json({ token })
     console.log(`User created: ${token}`)
     return response
     next()
@@ -77,7 +77,7 @@ authRouter.post('/auth/login', async (req: Request, res: Response, next: NextFun
 
     // Generate JWT token
     const token = jwt.sign({ data: user }, secret, { expiresIn: expiration })
-    res.status(200).json({token})
+    res.status(200).json({ token })
     console.log(`Login successful: ${token}`)
     next()
   } catch (error) {

@@ -4,9 +4,7 @@ type Response = {
   email?: string
   first_name?: string
   last_name?: string
-
 }
-
 
 const loginRest = async (username: string, secret: string): Promise<Response> => {
   const response = await fetch('https://api.chatengine.io/users/me/', {
@@ -36,7 +34,7 @@ const signupRest = async (
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Private-Key': "3e0d65b6-912b-41b1-ace8-35b2311f0bc0"
+      'Private-Key': '3e0d65b6-912b-41b1-ace8-35b2311f0bc0'
     },
     body: JSON.stringify({ username, secret, email, first_name, last_name })
   })

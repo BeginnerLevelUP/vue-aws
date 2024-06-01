@@ -2,7 +2,7 @@ interface Uploads {
   fileName: string
 }
 
-export  interface User {
+export interface User {
   userName: string
   userEmail: string
   userPassword: string
