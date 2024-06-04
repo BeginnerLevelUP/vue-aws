@@ -14,6 +14,7 @@
     "format": "prettier --write server/ && prettier --write src/"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
     "react-chat-engine-pretty": "^0.1.8",
     "veaury": "^2.4.0",
