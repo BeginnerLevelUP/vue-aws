@@ -23,7 +23,9 @@ authRouter.post('/auth/register', async (req: Request, res: Response, next: Next
     userName,
     userEmail,
     userPassword: hashedPassword,
-    createdAt: new Date().getTime()
+    createdAt: new Date().getTime(),
+    firstName:'',
+    lastName:'',
   }
 
   const command = new PutCommand({

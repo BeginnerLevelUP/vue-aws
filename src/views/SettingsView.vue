@@ -27,20 +27,19 @@
   </div>
 
   <div
-    class="bg-white w-full flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931] flex justify-center"
-  >
+    class="bg-white w-full flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931] flex justify-center">
     <main class="w-full min-h-screen py-1 md:w-2/3 lg:w-3/4">
       <div class="p-2 md:p-4">
         <div class="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
-          <h2 class="pl-6 text-2xl font-bold sm:text-xl">{{ user?.data?.userName }} Profile</h2>
+          <h2 class="pl-6 text-2xl font-bold sm:text-xl">{{ user?.userName }} Profile</h2>
 
           <div class="grid max-w-2xl mx-auto mt-8">
             <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
               <div>
                 <img
                   class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-                  v-if="user?.data?.profileImage"
-                  :src="user?.data?.profileImage"
+                  v-if="user?.profileImageUrl"
+                  :src="user?.profileImageUrl"
                   alt="Bordered avatar"
                 />
                 <div class="avatar" v-else>
@@ -63,18 +62,19 @@
                 </div>
               </div>
               <div class="flex flex-col space-y-5 sm:ml-8">
+    <form @submit.prevent="uploadFile">
+<input type="file" class="file-input file-input-bordered file-input-error w-full max-w-xs" @change="handleFileChange" />
                 <button
-                  type="button"
+                  type="submit"
                   class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200"
                 >
                   Change picture
                 </button>
-                <button
-                  type="button"
-                  class="py-3.5 px-7 text-base font-medium text-indigo-900 focus:outline-none bg-white rounded-lg border border-indigo-200 hover:bg-indigo-100 hover:text-[#202142] focus:z-10 focus:ring-4 focus:ring-indigo-200"
-                >
-                  Delete picture
-                </button>
+                </form>
+               <div v-if="message" role="alert" class="alert alert-success">
+  <span>{{ message }}</span>
+</div>
+
               </div>
             </div>
 
@@ -82,62 +82,72 @@
               <div
                 class="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6"
               >
-                <div class="w-full">
+              <div class="items-center mt-8 sm:mt-14 text-[#202142]">
+
+             <form @submit.prevent="update">
+                <div class="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
+                  <div class="w-full">
+                    <label
+                      for="first_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                      >Your first name</label
+                    >
+                    <input
+                      type="text"
+                      id="first_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your first name"
+                      required
+                      v-model="user.firstName"
+                    />
+                  </div>
+
+                  <div class="w-full">
+                    <label
+                      for="last_name"
+                      class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                      >Your last name</label
+                    >
+                    <input
+                      type="text"
+                      id="last_name"
+                      class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                      placeholder="Your last name"
+                      required
+                      v-model="user.lastName"
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-2 sm:mb-6">
                   <label
-                    for="first_name"
+                    for="email"
                     class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
-                    >Your first name</label
+                    >Your email</label
                   >
                   <input
-                    type="text"
-                    id="first_name"
+                    type="email"
+                    id="email"
                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                    placeholder="Your first name"
                     required
+                    v-model="user.userEmail"
                   />
                 </div>
 
-                <div class="w-full">
-                  <label
-                    for="last_name"
-                    class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
-                    >Your last name</label
+                <div class="flex justify-end">
+                  <button
+                    type="submit"
+                    class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                   >
-                  <input
-                    type="text"
-                    id="last_name"
-                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                    placeholder="Your last name"
-                    required
-                  />
+                    Save
+                  </button>
                 </div>
-              </div>
+              </form> 
 
-              <div class="mb-2 sm:mb-6">
-                <label
-                  for="email"
-                  class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
-                  >Your email</label
-                >
-                <input
-                  type="email"
-                  id="email"
-                  class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                  placeholder="your.email@mail.com"
-                  required
-                />
-              </div>
-
-              <div class="flex justify-end">
-                <button
-                  type="submit"
-                  class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
-                >
-                  Save
-                </button>
-              </div>
             </div>
           </div>
+        </div>
+      </div>
         </div>
       </div>
     </main>
@@ -146,26 +156,125 @@
 <script>
 import navigate from '../components/nav.vue'
 import { jwtDecode } from 'jwt-decode'
+import { updateAccount,uploadImage } from '@/utils/chatEngineApi';
 export default {
   components: {
     navigate
   },
   data() {
     return {
-      user: null
+      user:null,
+      file:null,
+      message:null
     }
   },
   created() {
-    this.getUserToken()
+    this.getUser()
   },
   methods: {
-    getUserToken() {
-      const token = localStorage.getItem('id_token')
-      if (token) {
-        const decoded = jwtDecode(token) || {}
-        this.user = decoded
-      }
-    }
+async getUser() {
+  const token = localStorage.getItem('id_token');
+  if (token) {
+ const decoded = jwtDecode(token) || {};
+    this.user = decoded.data ;
+            try {
+          const res = await fetch(`http://localhost:3001/api/users/${this.user?.userName}`, {
+            method: 'Get',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+
+
+          const data = await res.json()
+          this.user=data
+          console.log(this.user)
+
+        } catch (err) {
+          console.error(err instanceof Error ? err.message : 'unknown error')
+        }
   }
-}
+},
+
+    logOut() {
+      localStorage.removeItem('id_token')
+      this.user = null
+      this.$router.push('/')
+    },
+   async update(){
+        try {
+          console.log(this.user)
+          const res = await fetch(`http://localhost:3001/api/users/${this.user?.userName}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(this.user)
+          })
+
+
+          const data = await res.json()
+          
+          if(data){
+             await updateAccount(
+        data.Attributes.userName,
+        data.Attributes.userName, // Assuming you have a field like userSecret in your user object
+        data.Attributes.userEmail,
+        data.Attributes.firstName,
+       data.Attributes.lastName,
+        null
+    );
+    this.message='profile update'
+          }
+
+        } catch (err) {
+          console.error(err instanceof Error ? err.message : 'unknown error')
+        }
+      },
+    deleteProfile(){
+
+    },
+        handleFileChange(event) {
+      this.file = event.target.files[0];
+    },
+    async uploadFile() {
+      if (!this.file) {
+        this.message = 'No file selected.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('media', this.file);
+
+      try {
+        const response = await fetch(`http://localhost:3001/api/users/${this.user?.userName}/media-upload`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        if(data){
+       await uploadImage(this.file,this.user.userName,this.user.userName)
+        this.message = 'File uploaded successfully: ' + JSON.stringify(data);
+        // this.$router.go(0)
+
+        }
+
+      } catch (error) {
+        this.message = 'Error uploading file: ' + error.message;
+      }
+    },
+  },
+
+
+
+  }
+
 </script>

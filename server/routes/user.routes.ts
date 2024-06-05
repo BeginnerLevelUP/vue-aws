@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as multer from 'multer'
 import { type StorageEngine } from 'multer'
+import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
 import { v4 as uuidv4 } from 'uuid'
 import { type Request, type Response, type NextFunction } from 'express'
@@ -69,7 +70,7 @@ userRouter.get('/users/:username', async (req: Request, res: Response, next: Nex
   })
   try {
     const response = await docClient.send(command)
-    res.status(200).send(`User ${usernameParam}: ${JSON.stringify(response?.Items)}`)
+res.status(200).json(response?.Items?.[0] || {})
     console.log(`User ${usernameParam}: ${JSON.stringify(response?.Items)}`)
     return response
   } catch (error) {
@@ -79,7 +80,6 @@ userRouter.get('/users/:username', async (req: Request, res: Response, next: Nex
   next()
 })
 
-//Update
 userRouter.put(
   '/users/:username',
   getUserByUsername,
@@ -87,7 +87,7 @@ userRouter.put(
     const usernameParam = req?.currentUser?.userName
     const currentUser: { [key: string]: any } = req?.currentUser ?? {}
     try {
-      const updateExpression =
+      let updateExpression =
         'set ' +
         Object.keys(currentUser)
           .filter((key) => key !== 'userName' && key !== 'createdAt') // Exclude userName and createdAt from update
@@ -99,6 +99,14 @@ userRouter.put(
         if (key !== 'userName' && key !== 'createdAt') {
           // Exclude userName and createdAt from expressionAttributeValues
           expressionAttributeValues[`:${key}`] = req.body[key] ?? currentUser[key]
+        }
+      })
+
+      // Adding new properties from req.body to the update expression and attribute values
+      Object.keys(req.body).forEach((key) => {
+        if (!(key in currentUser)) {
+          updateExpression += `, ${key} = :${key}`
+          expressionAttributeValues[`:${key}`] = req.body[key]
         }
       })
 
@@ -114,7 +122,7 @@ userRouter.put(
       })
 
       const updateResponse = await docClient.send(updateCommand)
-      res.status(200).send(`Update User ${usernameParam} : ${JSON.stringify(updateResponse)}`)
+      res.status(200).json(updateResponse)
       console.log(`Update User ${usernameParam} : ${JSON.stringify(updateResponse)}`)
     } catch (error) {
       res.status(500).send(`Error Updating User ${usernameParam} : ${error}`)
@@ -124,6 +132,7 @@ userRouter.put(
     next()
   }
 )
+
 
 // Delete
 userRouter.delete(
@@ -181,9 +190,7 @@ userRouter.post(
     try {
       const updateResponse = await docClient.send(updateCommand)
       const uploadResponse = await uploadClient.send(uploadCommand)
-      res.status(200).send(`File  uploaded: ${JSON.stringify(uploadResponse)}
-            Profile Image Url added to User: ${JSON.stringify(updateResponse)}
-        `)
+      res.status(200).json(updateResponse || {})
       console.log(`File  uploaded: ${JSON.stringify(uploadResponse)}
             Profile Image Url added to User: ${JSON.stringify(updateResponse)}
         `)

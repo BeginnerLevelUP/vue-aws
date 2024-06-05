@@ -1,5 +1,5 @@
 <template>
-  <loginForm ></loginForm>
+  <loginForm></loginForm>
   <signupForm></signupForm>
   <div v-if="!user" class="p-6 flex justify-center my-64">
     <h1 class="text-3xl inline mx-10">
@@ -11,50 +11,67 @@
   <div v-if="user">
     <navigate :logOut="logOut" :user="user"></navigate>
     <div style="height: 100vh">
-      <PrettyChatWindow :projectId="projectId" :username="user?.data?.userName" :secret="user?.data?.userName" />
+      <PrettyChatWindow
+        :projectId="projectId"
+        :username="user?.userName"
+        :secret="user?.userName"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import {jwtDecode} from 'jwt-decode';
-import { PrettyChatWindow } from 'react-chat-engine-pretty';
-import { applyReactInVue } from 'veaury';
-import navigate from '@/components/nav.vue';
-import loginForm from '@/components/loginForm.vue';
-import signupForm from '@/components/signupForm.vue';
+import { jwtDecode } from 'jwt-decode'
+import { PrettyChatWindow } from 'react-chat-engine-pretty'
+import { applyReactInVue } from 'veaury'
+import navigate from '@/components/nav.vue'
+import loginForm from '@/components/loginForm.vue'
+import signupForm from '@/components/signupForm.vue'
 
 export default {
   components: {
     PrettyChatWindow: applyReactInVue(PrettyChatWindow),
     navigate,
     loginForm,
-    signupForm,
+    signupForm
   },
   data() {
     return {
       user: null,
-      projectId: 'a753e243-722c-40b5-8313-8edd7608ef8a',
-      username: null,
-      secret: null,
-    };
+      projectId: import.meta.env.VITE_CHAT_ENGINE_PROJECT_ID||'',
+    }
   },
   created() {
-    this.getUserToken();
+    this.getUser()
   },
   methods: {
-    getUserToken() {
-      const token = localStorage.getItem('id_token');
+    async getUser() {
+      const token = localStorage.getItem('id_token')
       if (token) {
-        const decoded = jwtDecode(token) || {};
-        this.user = decoded;
+        const decoded = jwtDecode(token) || {}
+        this.user = decoded.data
+                    try {
+          const res = await fetch(`http://localhost:3001/api/users/${this.user?.userName}`, {
+            method: 'Get',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+
+
+          const data = await res.json()
+          this.user=data
+          console.log(this.user)
+
+        } catch (err) {
+          console.error(err instanceof Error ? err.message : 'unknown error')
+        }
       }
     },
     logOut() {
-      localStorage.removeItem('id_token');
-      this.user = null;
-    },
-
-  },
-};
+      localStorage.removeItem('id_token')
+      this.user = null
+    }
+  }
+}
 </script>

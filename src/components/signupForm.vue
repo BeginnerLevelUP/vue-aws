@@ -1,6 +1,5 @@
 <script lang="ts">
 import { type User } from '@/utils/userInterface'
-import router from '../router/index'
 import { signupRest } from '../utils/chatEngineApi'
 export default {
   data() {
