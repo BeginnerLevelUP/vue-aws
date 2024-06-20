@@ -1,39 +1,41 @@
-# chatApp
+# Vue Chat App
+Meant to represnet the basic functionality of a chat application made with a vue react chat engine and aws for the backend 
+## Installing
+Simply Go to the [Deployed Website]() (Currenlty Not Deployed)
+## Features
+* The Ability to Create and Login into an account
+* Upload or Remove your own profile picture 
+* Customize your profile (email first and last name)
+* Have one on one converstation or interact in a group chat
+* Upload meida such as photos for recipient/s to see
 
-This template should help get you started developing with Vue 3 in Vite.
+## Images
+![Login](./readMeImages/logInAndSettingsPage.gif)
+![Home](./readMeImages/chatFunctionality.gif)
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Type Support for `.vue` Imports in TS
+## Improvments
+* Sign up with Oauth Providers (Google Linkedin)
+* More use of AWS what I have no is essentially having the same data in two places on my own dynamodb and chat engine's
+* More U.I improvments- what I created was wonky and I used chat engine's default layout instead of creating my own 
+## Help
+This was m first time using Vue and I enjoyed it alot it was very simple to use. Also simliar to its contenders Angular and React. During my breif time of using it I noticed that it was focused on its simplicity especially when doing forms and hanlding state' 
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Authors
 
-## Customize configuration
+Contributors names and contact info
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+[Damion Morgan](https://github.com/BeginnerLevelUP)
 
-## Project Setup
 
-```sh
-npm install
-```
+## Version History
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
+* 0.1
+    * Initial Release
 
-### Type-Check, Compile and Minify for Production
+## License
 
-```sh
-npm run build
-```
+This project has no license 
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
